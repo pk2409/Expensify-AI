@@ -5,7 +5,10 @@ import { BarLoader } from 'react-spinners'
 import { TransactionTable } from '../_components/transaction-table'
 
 
-const AccountsPage = async ({params}) => {
+import AccountCharts from '../_components/account-charts'
+
+
+export default async function AccountsPage({params}) {
 
     const accountData = await getAccountWithTransactions(params.id)
 
@@ -41,6 +44,7 @@ const AccountsPage = async ({params}) => {
     <Suspense
         fallback={<BarLoader className="mt-4" width={"100%"} color="#9333ea" />}
       >
+        <AccountCharts transactions={transactions} />
         <TransactionTable transactions={transactions} />
       </Suspense>
 
@@ -53,4 +57,4 @@ const AccountsPage = async ({params}) => {
   )
 }
 
-export default AccountsPage
+
