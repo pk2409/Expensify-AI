@@ -11,11 +11,11 @@ import { inngest } from "@/app/lib/inngest/client";
 // } from "@/lib/inngest/function";
 
 
-import { checkBudgetAlerts, processRecurringTransaction, triggerRecurringTransactions } from "./functions";
+import { checkBudgetAlerts, generateMonthlyReports, processRecurringTransaction, triggerRecurringTransactions } from "./functions";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [
-    checkBudgetAlerts , triggerRecurringTransactions , processRecurringTransaction
+    checkBudgetAlerts , triggerRecurringTransactions , processRecurringTransaction , generateMonthlyReports
   ],
 });

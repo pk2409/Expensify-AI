@@ -1,4 +1,21 @@
+import arcjet, { createMiddleware, detectBot, shield } from '@arcjet/next';
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+
+
+const aj = arcjet({
+  key : process.env.ARCJET_KEY, 
+  rules :[
+    shield({
+      mode:'LIVE'
+    }),
+    detectBot({
+      MODE:'LIVE',
+      allow:[
+        "CATEGORY : SEARCH_ENGINE", "GO_HTTP"
+      ]
+    })
+  ]
+})
 
 const isProtectedRoute  = createRouteMatcher([
   "/dashboard(.*)",
@@ -17,7 +34,7 @@ export const config = {
   ],
 };
 
-export default clerkMiddleware(async(auth,request)=>{
+const clerk = clerkMiddleware(async(auth,request)=>{
   const {userId,redirectToSignIn} = await auth();
   if(!userId && isProtectedRoute(request)){
 
@@ -26,3 +43,5 @@ export default clerkMiddleware(async(auth,request)=>{
 
   }
 });
+
+export default createMiddleware(aj,clerk);
